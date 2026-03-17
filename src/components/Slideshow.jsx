@@ -22,7 +22,7 @@ const Slideshow = ({ images, onComplete }) => {
         } else {
           onComplete();
         }
-      }, 5000); // 5 seconds per memory - peaceful & aesthetic
+      }, 3500); // Faster interval (was 5000)
       return () => clearTimeout(timer);
     }
   }, [currentIndex, messages.length, onComplete]);
@@ -35,7 +35,7 @@ const Slideshow = ({ images, onComplete }) => {
            initial={{ opacity: 0 }}
            animate={{ opacity: 1 }}
            exit={{ opacity: 0 }}
-           transition={{ duration: 1.5, ease: "easeInOut" }}
+           transition={{ duration: 1.0, ease: "easeInOut" }} // Faster fade (was 1.5)
            className="relative w-full h-full flex items-center justify-center p-4 md:p-10"
         >
           {/* Aesthetic Background Blur for depth */}
@@ -46,11 +46,11 @@ const Slideshow = ({ images, onComplete }) => {
 
           {/* Main Photo Frame */}
           <div className="relative w-full h-full max-w-5xl max-h-[80vh] rounded-3xl overflow-hidden glass border border-white/10 shadow-[0_0_80px_rgba(255,45,85,0.2)]">
-            {/* Very slow ken-burns zoom */}
+            {/* Ken-burns zoom */}
             <motion.div
-              initial={{ scale: 1.15 }}
+              initial={{ scale: 1.1 }}
               animate={{ scale: 1 }}
-              transition={{ duration: 5, ease: "linear" }}
+              transition={{ duration: 3.5, ease: "linear" }} // Match interval
               className="w-full h-full"
             >
               <img
