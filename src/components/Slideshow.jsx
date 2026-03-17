@@ -15,59 +15,74 @@ const Slideshow = ({ images, onComplete }) => {
   ];
 
   useEffect(() => {
-    const timer = setInterval(() => {
-      if (currentIndex < messages.length - 1) {
-        setCurrentIndex(prev => prev + 1);
-      } else {
-        clearInterval(timer);
-        setTimeout(onComplete, 2500);
-      }
-    }, 4500); 
-
-    return () => clearInterval(timer);
+    if (currentIndex < messages.length) {
+      const timer = setTimeout(() => {
+        if (currentIndex < messages.length - 1) {
+          setCurrentIndex(prev => prev + 1);
+        } else {
+          onComplete();
+        }
+      }, 5000); // 5 seconds per memory - peaceful & aesthetic
+      return () => clearTimeout(timer);
+    }
   }, [currentIndex, messages.length, onComplete]);
 
   return (
-    <div className="fixed inset-0 z-[60] bg-black flex items-center justify-center p-4">
+    <div className="fixed inset-0 z-[60] bg-black flex items-center justify-center">
       <AnimatePresence mode="wait">
         <motion.div
-          key={currentIndex}
-          initial={{ opacity: 0, scale: 1.05 }}
-          animate={{ opacity: 1, scale: 1 }}
-          exit={{ opacity: 0, scale: 0.95 }}
-          transition={{ duration: 1.2 }}
-          className="relative w-full h-full max-w-5xl max-h-[85vh] flex items-center justify-center"
+           key={currentIndex}
+           initial={{ opacity: 0 }}
+           animate={{ opacity: 1 }}
+           exit={{ opacity: 0 }}
+           transition={{ duration: 1.5, ease: "easeInOut" }}
+           className="relative w-full h-full flex items-center justify-center p-4 md:p-10"
         >
-          {/* Main Image */}
-          <div className="relative w-full h-full rounded-3xl overflow-hidden shadow-[0_0_60px_rgba(255,45,85,0.4)] border border-white/10 glass">
-            <img
-              src={images[currentIndex % images.length]}
-              alt="Romantic Memory"
-              className="w-full h-full object-contain"
-            />
+          {/* Aesthetic Background Blur for depth */}
+          <div 
+             className="absolute inset-0 bg-cover bg-center opacity-30 blur-2xl scale-110"
+             style={{ backgroundImage: `url(${images[currentIndex % images.length]})` }}
+          />
+
+          {/* Main Photo Frame */}
+          <div className="relative w-full h-full max-w-5xl max-h-[80vh] rounded-3xl overflow-hidden glass border border-white/10 shadow-[0_0_80px_rgba(255,45,85,0.2)]">
+            {/* Very slow ken-burns zoom */}
+            <motion.div
+              initial={{ scale: 1.15 }}
+              animate={{ scale: 1 }}
+              transition={{ duration: 5, ease: "linear" }}
+              className="w-full h-full"
+            >
+              <img
+                src={images[currentIndex % images.length]}
+                alt="Memory"
+                className="w-full h-full object-contain"
+              />
+            </motion.div>
             
-            {/* Darker Overlay for Text */}
-            <div className="absolute inset-0 bg-gradient-to-t from-black/90 via-transparent to-black/30"></div>
+            {/* Text & Content Overlay */}
+            <div className="absolute inset-0 bg-gradient-to-t from-black via-transparent to-transparent"></div>
             
-            {/* Text Message */}
-            <div className="absolute inset-x-0 bottom-0 p-10 md:p-16 flex flex-col items-center">
+            <div className="absolute inset-x-0 bottom-0 p-8 md:p-16 flex flex-col items-center">
               <motion.h2
-                initial={{ opacity: 0, y: 40 }}
-                animate={{ opacity: 1, y: 0 }}
+                initial={{ opacity: 0, y: 50, filter: 'blur(10px)' }}
+                animate={{ opacity: 1, y: 0, filter: 'blur(0px)' }}
                 transition={{ delay: 1, duration: 1.2, ease: "easeOut" }}
-                className="text-2xl md:text-5xl font-bold text-white text-center italic drop-shadow-[0_2px_20px_rgba(0,0,0,1)] leading-snug"
+                className="text-2xl md:text-5xl font-bold text-white text-center italic drop-shadow-[0_4px_30px_rgba(0,0,0,1)] leading-snug px-4"
               >
                 {messages[currentIndex]}
               </motion.h2>
-              
-              {/* Progress Bar */}
-              <div className="mt-12 flex gap-3 w-full max-w-sm justify-center">
+
+              {/* Progress indicator */}
+              <div className="mt-12 flex gap-4 w-full max-w-xs justify-center opacity-50">
                 {messages.map((_, i) => (
-                  <div
+                  <motion.div
                     key={i}
-                    className={`h-1.5 rounded-full transition-all duration-700 ${
-                      i === currentIndex ? 'bg-neonPink w-12' : 'bg-white/20 w-3'
-                    }`}
+                    animate={{ 
+                       scale: i === currentIndex ? 1.4 : 1,
+                       backgroundColor: i === currentIndex ? "#ff2d55" : "rgba(255,255,255,0.2)" 
+                    }}
+                    className="h-1.5 w-1.5 rounded-full"
                   />
                 ))}
               </div>
