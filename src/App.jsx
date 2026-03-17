@@ -5,7 +5,7 @@ import Intro from './components/Intro';
 import Gallery3D from './components/Gallery3D';
 import FloatingPhotos from './components/FloatingPhotos';
 import BackgroundHearts from './components/BackgroundHearts';
-import MusicPlayer from './components/MusicPlayer';
+import MusicPermission from './components/MusicPermission';
 import Slideshow from './components/Slideshow';
 import FinalMessage from './components/FinalMessage';
 import GlitterTrail from './components/GlitterTrail';
@@ -111,9 +111,7 @@ function App() {
         )}
       </AnimatePresence>
 
-      {(gameState !== 'login') && (
-        <MusicPlayer autoStart={gameState === 'intro'} />
-      )}
+      <MusicPermission />
     </div>
   );
 }
