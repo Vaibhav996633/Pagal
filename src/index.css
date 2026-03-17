@@ -1,0 +1,91 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+:root {
+  font-family: 'Outfit', sans-serif;
+  background-color: #0a0a0a;
+  color: white;
+}
+
+body {
+  margin: 0;
+  padding: 0;
+  overflow-x: hidden;
+  background: #0a0a0a;
+}
+
+.glass {
+  background: rgba(255, 255, 255, 0.05);
+  backdrop-filter: blur(10px);
+  -webkit-backdrop-filter: blur(10px);
+  border: 1px solid rgba(255, 255, 255, 0.1);
+}
+
+.neon-pink {
+  text-shadow: 0 0 10px rgba(255, 0, 127, 0.8), 0 0 20px rgba(255, 0, 127, 0.5);
+}
+
+.neon-blue {
+  text-shadow: 0 0 10px rgba(0, 229, 255, 0.8), 0 0 20px rgba(0, 229, 255, 0.5);
+}
+
+/* Custom 3D Transform Styles */
+.perspective-container {
+  perspective: 1200px;
+  transform-style: preserve-3d;
+}
+
+.gallery-3d {
+  transform-style: preserve-3d;
+  transition: transform 0.8s cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+.gallery-item {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  backface-visibility: visible;
+  transform-style: preserve-3d;
+}
+
+@keyframes heart-rise {
+  0% {
+    transform: translateY(100vh) scale(0.5);
+    opacity: 0;
+  }
+  20% {
+    opacity: 0.8;
+  }
+  100% {
+    transform: translateY(-20vh) scale(1.2);
+    opacity: 0;
+  }
+}
+
+.heart-particle {
+  position: fixed;
+  pointer-events: none;
+  z-index: 1;
+  animation: heart-rise linear forwards;
+}
+
+.cursor-glow {
+  width: 200px;
+  height: 200px;
+  background: radial-gradient(circle, rgba(255, 0, 127, 0.1) 0%, transparent 70%);
+  pointer-events: none;
+  position: fixed;
+  z-index: 9999;
+  transform: translate(-50%, -50%);
+}
+
+.music-sync {
+  transform: scale(var(--music-pulse, 1));
+  transition: transform 0.1s ease-out;
+}
+
+.gallery-3d {
+  transform-style: preserve-3d;
+  transition: transform 0.8s cubic-bezier(0.1, 0, 0.1, 1);
+}
